@@ -1,0 +1,21 @@
+{
+  "information_for_contributors": [],
+  "version": "",
+  "name": "isobjectscript.csp",
+  "scopeName": "source.isobjectscript.csp",
+  "patterns": [
+    {
+      "include": "#inline-html"
+    }
+  ],
+  "repository": {
+    "inline-html": {
+      "name": "meta.embedded.inline.html",
+      "patterns": [
+        {
+          "include": "text.html.basic"
+        }
+      ]
+    }
+  }
+}

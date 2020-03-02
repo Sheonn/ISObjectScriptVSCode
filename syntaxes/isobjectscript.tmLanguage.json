@@ -1,0 +1,1375 @@
+{
+  "information_for_contributors": [],
+  "version": "",
+  "name": "isobjectscript",
+  "scopeName": "source.isobjectscript",
+  "patterns": [
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#class-include"
+    },
+    {
+      "include": "#class-declaration"
+    },
+    {
+      "include": "#statement"
+    }
+  ],
+  "repository": {
+    "illegal": {
+      "begin": "(.*[^\\{])",
+      "beginCaptures": {
+        "1": {
+          "name": "invalid.illegal.isobjectscript"
+        }
+      },
+      "end": "(?<=$)"
+    },
+    "statement": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#commands-statement"
+        },
+        {
+          "include": "#commands-condition-statement"
+        },
+        {
+          "include": "#functions-statement"
+        },
+        {
+          "include": "#qstring-double"
+        },
+        {
+          "include": "#expression"
+        },
+        {
+          "include": "#block"
+        }
+      ]
+    },
+    "expression": {
+      "patterns": [
+        {
+          "include": "#embedded-sql"
+        },
+        {
+          "include": "#embedded-js"
+        },
+        {
+          "include": "#embedded-html"
+        },
+        {
+          "include": "#dim-expression"
+        },
+        {
+          "include": "#class-expression"
+        },
+        {
+          "include": "#routine-expression"
+        },
+        {
+          "include": "#global-expression"
+        },
+        {
+          "include": "#macros-expression"
+        },
+        {
+          "include": "#method-call"
+        },
+        {
+          "include": "#property-reference"
+        },
+        {
+          "include": "#local-declaration"
+        },
+        {
+          "include": "#numeric-literal"
+        },
+        {
+          "include": "#label-expression"
+        },
+        {
+          "include": "#this-expression"
+        },
+        {
+          "include": "#define-expression"
+        }
+      ]
+    },
+    "class-members": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#class-property-or-relation"
+        },
+        {
+          "include": "#class-storage"
+        },
+        {
+          "include": "#class-xdata"
+        },
+        {
+          "include": "#class-method"
+        },
+        {
+          "include": "#class-trigger"
+        },
+        {
+          "include": "#class-index"
+        },
+        {
+          "include": "#class-parameter"
+        },
+        {
+          "include": "#class-foreignkey"
+        },
+        {
+          "include": "#class-query"
+        }
+      ]
+    },
+    "label": {
+      "patterns": [
+        {
+          "begin": "^(\\b[a-zA-Z][a-zA-Z0-9]*\\b)(?=\\()",
+          "beginCaptures": {
+            "1": {
+              "name": "entity.name.function.isobjectscript"
+            }
+          },
+          "end": "(?=\\))",
+          "patterns": [
+            {
+              "include": "#statement"
+            }
+          ]
+        },
+        {
+          "match": "^(\\b[a-zA-Z][a-zA-Z0-9]*\\b\\s*)(\\b[a-zA-Z][a-zA-Z0-9]*\\b)?(?=$)",
+          "captures": {
+            "1": {
+              "name": "entity.name.function.isobjectscript"
+            },
+            "2": {
+              "name": "entity.name.variable.parameter.isobjectscript"
+            }
+          }
+        }
+      ]
+    },
+    "method-call": {
+      "begin": "(?<!\\.)(\\.{1})(%?\\b[a-zA-Z][a-zA-Z0-9]*\\b)(?=\\()",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.separator.comma.isobjectscript"
+        },
+        "2": {
+          "name": "entity.name.function.isobjectscript"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#statement"
+        }
+      ]
+    },
+    "property-reference": {
+      "name": "entity.name.variable.property.isobjectscript",
+      "match": "(?<!\\.)(\\.{1})(%?\\b[a-zA-Z][a-zA-Z0-9]*\\b)(?!\\()"
+    },
+    "local-declaration": {
+      "patterns": [
+        {
+          "include": "#local-variable"
+        },
+        {
+          "include": "#local-method"
+        },
+        {
+          "include": "#local-property"
+        }
+      ]
+    },
+    "this-expression": {
+      "name": "keyword.other.this.isobjectscript",
+      "match": "##this"
+    },
+    "define-expression": {
+      "name": "keyword.other.define.isobjectscript",
+      "match": "#define\\b\\s+\\b[[:alpha:]][[:alnum:]]*\\b"
+    },
+    "local-variable": {
+      "name": "entity.name.variable.local.isobjectscript",
+      "match": "(?<!^)(?<![&\\.\\$])(%?\\b[_[:alpha:]][_[:alnum:]]*\\b)(?![\\^])"
+    },
+    "local-property": {
+      "name": "entity.name.variable.property.isobjectscript",
+      "match": "(\\.{2}%?\\b[_[:alpha:]][_[:alnum:]]*\\b)"
+    },
+    "local-method": {
+      "name": "entity.name.function.isobjectscript",
+      "match": "(\\.{2}%?\\b[[:alpha:]][[:alnum:]]*\\b)(?=\\()"
+    },
+    "macros-expression": {
+      "name": "keyword.other.macros.isobjectscript",
+      "match": "(?<!\\$)(\\${3}\\b[a-zA-Z][a-zA-Z0-9\\.]*\\b)"
+    },
+    "label-expression": {
+      "name": "entity.name.function.isobjectscript",
+      "match": "(?<!\\$)((\\${2}\\b[[:alpha:]][_[:alnum:]]*\\b)|(\\b[[:alpha:]][_[:alnum:]]*\\b(?=\\^)))"
+    },
+    "dim-expression": {
+      "begin": "(?<!\\#)(#\\bdim\\b)\\s+(%?\\b[[:alpha:]][[:alnum:]]*\\b)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.dim.isobjectscript"
+        },
+        "2": {
+          "name": "entity.name.variable.property.isobjectscript"
+        }
+      },
+      "end": "(?=\\=|$)",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.other.dim.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#type-definition"
+        }
+      ]
+    },
+    "routine-expression": {
+      "begin": "(?<!\\$)(\\${2})?(\\b[a-zA-Z][a-zA-Z0-9\\.]*\\b)(\\^%?\\b[a-zA-Z][a-zA-Z0-9\\.]*\\b)(?=\\()",
+      "beginCaptures": {
+        "1": {
+          "name": "entity.name.function.isobjectscript"
+        },
+        "2": {
+          "name": "entity.name.function.isobjectscript"
+        },
+        "3": {
+          "name": "entity.name.type.global.isobjectscript"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#statement"
+        }
+      ]
+    },
+    "global-expression": {
+      "begin": "(\\^%?\\b[a-zA-Z][a-zA-Z0-9\\.]*\\b)",
+      "beginCaptures": {
+        "1": {
+          "name": "entity.name.type.global.isobjectscript"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#statement"
+        }
+      ]
+    },
+    "class-expression": {
+      "begin": "(##class)(\\()(%?\\b[a-zA-Z][a-zA-Z0-9\\.]*\\b)(\\))(\\.)(%?\\b[a-zA-Z][a-zA-Z0-9]*\\b)(?=\\()",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.class.isobjectscript"
+        },
+        "2": {
+          "name": "punctuation.parenthesis.open.isobjectscript"
+        },
+        "3": {
+          "name": "entity.name.type.class.isobjectscript"
+        },
+        "4": {
+          "name": "punctuation.parenthesis.close.isobjectscript"
+        },
+        "5": {
+          "name": "punctuation.separator.comma.isobjectscript"
+        },
+        "6": {
+          "name": "entity.name.function.isobjectscript"
+        }
+      },
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#statement"
+        }
+      ]
+    },
+    "commands-statement": {
+      "name": "keyword.control.command.isobjectscript",
+      "match": "(?i)\\b(break|b|set|s|do|d|kill|k|goto|g|read|r|write|w|open|o|use|u|close|c|continue|halt|h|hang|job|j|lock|l|merge|m|new|n|quit|q|return|ret|tstart|ts|tcommit|tc|trollback|tro|throw|view|v|xecute|x|zkill|zl|znspace|zn|ztrap|zwrite|zw|zzdump|zzwrite)\\b(?!\\.)"
+    },
+    "commands-condition-statement": {
+      "name": "keyword.control.command.isobjectscript",
+      "match": "(?i)\\b(if|i|while|for|f|try|catch|else|e|elseif)\\b"
+    },
+    "functions-statement": {
+      "name": "keyword.control.function.isobjectscript",
+      "match": "(?i)(?<!\\$)(\\$\\b[[:alpha:]]+\\b)"
+    },
+    "class-declaration": {
+      "patterns": [
+        {
+          "begin": "^\\b(Class)\\b\\s+(%?\\b[a-zA-Z][\\.a-zA-Z0-9]*\\b)",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.class.isobjectscript"
+            },
+            "2": {
+              "name": "entity.name.type.class.isobjectscript"
+            }
+          },
+          "end": "(?=\\})",
+          "patterns": [
+            {
+              "include": "#class-extends"
+            },
+            {
+              "include": "#attribute-section"
+            },
+            {
+              "begin": "\\{",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.curlybrace.open.isobjectscript"
+                }
+              },
+              "end": "\\}",
+              "endCaptures": {
+                "0": {
+                  "name": "punctuation.curlybrace.close.isobjectscript"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "#class-members"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "block": {
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.curlybrace.open.isobjectscript"
+        }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.curlybrace.close.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#statement"
+        }
+      ]
+    },
+    "parenthesized-block": {
+      "begin": "\\(",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.parenthesis.open.isobjectscript"
+        }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.parenthesis.close.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#statement"
+        }
+      ]
+    },
+    "class-extends": {
+      "begin": "\\b(Extends)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.extern.isobjectscript"
+        }
+      },
+      "end": "(?=\\{|\\[)",
+      "patterns": [
+        {
+          "include": "parenthesized-class-list"
+        },
+        {
+          "include": "#class-name"
+        }
+      ]
+    },
+    "class-include": {
+      "begin": "^\\b(Include|IncludeGenerator)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.extern.isobjectscript"
+        }
+      },
+      "end": "(?=$)",
+      "patterns": [
+        {
+          "include": "#parenthesized-routine-list"
+        },
+        {
+          "include": "#routine-name"
+        }
+      ]
+    },
+    "parenthesized-class-list": {
+      "begin": "(\\()",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.parenthesis.open.isobjectscript"
+        }
+      },
+      "end": "(\\))",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.parenthesis.close.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#class-name"
+        },
+        {
+          "include": "#punctuation-comma"
+        }
+      ]
+    },
+    "parenthesized-routine-list": {
+      "begin": "(\\()",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.parenthesis.open.isobjectscript"
+        }
+      },
+      "end": "(\\))",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.parenthesis.close.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#routine-name"
+        },
+        {
+          "include": "#punctuation-comma"
+        }
+      ]
+    },
+    "parenthesized-property-list": {
+      "begin": "(\\()",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.parenthesis.open.isobjectscript"
+        }
+      },
+      "end": "(\\))",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.parenthesis.close.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#property-name"
+        },
+        {
+          "include": "#punctuation-comma"
+        }
+      ]
+    },
+    "attribute-section": {
+      "begin": "(\\[)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.squarebracket.open.isobjectscript"
+        }
+      },
+      "end": "(\\])",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.squarebracket.close.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#attribute-list"
+        }
+      ]
+    },
+    "attribute-list": {
+      "patterns": [
+        {
+          "begin": "(\\bNot\\b\\s+)?\\b([a-zA-Z]+)\\b\\s*(?=,)",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.attribute-specifier.isobjectscript"
+            },
+            "2": {
+              "name": "keyword.other.attribute-specifier.isobjectscript"
+            }
+          },
+          "end": ",",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.separator.comma.isobjectscript"
+            }
+          }
+        },
+        {
+          "begin": "(\\bNot\\b\\s+)?(\\b[a-zA-Z]+)\\b\\s*",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.attribute-specifier.isobjectscript"
+            },
+            "2": {
+              "name": "keyword.other.attribute-specifier.isobjectscript"
+            }
+          },
+          "end": "(?=\\]|,)",
+          "patterns": [
+            {
+              "include": "#attribute-value"
+            }
+          ]
+        }
+      ]
+    },
+    "attribute-value": {
+      "begin": "=",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.separator.equals.isobjectscript"
+        }
+      },
+      "end": "(?=\\]|,)",
+      "patterns": [
+        {
+          "include": "#block"
+        },
+        {
+          "include": "#qstring-double"
+        },
+        {
+          "include": "#numeric-literal"
+        },
+        {
+          "name": "constant.other.isobjectscript",
+          "match": "(\\b[a-zA-Z0-9]+\\b)"
+        }
+      ]
+    },
+    "parameter-list": {
+      "begin": "(\\()",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.parenthesis.open.isobjectscript"
+        }
+      },
+      "end": "(\\))",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.parenthesis.close.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "begin": "(\\b[a-zA-Z]+)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.parameter-name.isobjectscript"
+            }
+          },
+          "end": "(?=\\)|,)",
+          "patterns": [
+            {
+              "include": "#parameter-value"
+            }
+          ]
+        }
+      ]
+    },
+    "parameter-value": {
+      "begin": "=",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.separator.equals.isobjectscript"
+        }
+      },
+      "end": "(?=\\)|,)",
+      "patterns": [
+        {
+          "include": "#qstring-double"
+        },
+        {
+          "name": "constant.other.isobjectscript",
+          "match": "([a-zA-Z0-9]+)"
+        }
+      ]
+    },
+    "class-property-or-relation": {
+      "begin": "^\\b(Property|Relationship)\\b\\s+(%?\\b[[:alpha:]][[:alnum:]]*\\b)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.property.isobjectscript"
+        },
+        "2": {
+          "name": "entity.name.variable.property.isobjectscript"
+        }
+      },
+      "end": "(;)(?=$)",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.terminator.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#type-definition"
+        },
+        {
+          "include": "#parameter-list"
+        },
+        {
+          "include": "#attribute-list"
+        }
+      ]
+    },
+    "class-parameter": {
+      "begin": "^\\b(Parameter)\\b\\s+\\b([a-zA-Z0-9]+)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.parameter.isobjectscript"
+        },
+        "2": {
+          "name": "entity.name.type.parameter.isobjectscript"
+        },
+        "3": {
+          "name": "keyword.other.on.isobjectscript"
+        }
+      },
+      "end": "(;\\s*)(?=$)",
+      "patterns": [
+        {
+          "include": "#type-definition"
+        },
+        {
+          "include": "#attribute-list"
+        },
+        {
+          "include": "#punctuation-equals"
+        },
+        {
+          "include": "#qstring-double"
+        },
+        {
+          "match": "[a-zA-Z0-9]+",
+          "name": "constant.other.isobjectscript"
+        }
+      ]
+    },
+    "class-index": {
+      "begin": "^\\b(Index)\\b\\s+\\b([a-zA-Z0-9]+)\\b\\s+\\b(On)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.method.isobjectscript"
+        },
+        "2": {
+          "name": "entity.name.type.index.isobjectscript"
+        },
+        "3": {
+          "name": "keyword.other.on.isobjectscript"
+        }
+      },
+      "end": "(;)(?=$)",
+      "patterns": [
+        {
+          "include": "#parenthesized-property-list"
+        },
+        {
+          "include": "#property-name"
+        }
+      ]
+    },
+    "class-foreignkey": {
+      "begin": "^\\b(ForeignKey)\\b\\s+\\b([a-zA-Z0-9]+)\\b(\\()(%?[a-zA-Z][a-zA-Z0-9]*)(\\))\\s*\\b(References)\\b\\s*(%?[a-zA-Z][a-zA-Z0-9\\.]*)(\\()([a-zA-Z][a-zA-Z0-9]*)(\\))",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.foreignkey.isobjectscript"
+        },
+        "2": {
+          "name": "entity.name.type.foreignkey.isobjectscript"
+        },
+        "3": {
+          "name": "punctuation.parenthesis.open.isobjectscript"
+        },
+        "4": {
+          "name": "entity.name.variable.property.isobjectscript"
+        },
+        "5": {
+          "name": "punctuation.parenthesis.close.isobjectscript"
+        },
+        "6": {
+          "name": "keyword.other.references.isobjectscript"
+        },
+        "7": {
+          "name": "entity.name.type.class.isobjectscript"
+        },
+        "8": {
+          "name": "punctuation.parenthesis.open.isobjectscript"
+        },
+        "9": {
+          "name": "entity.name.type.index.isobjectscript"
+        },
+        "10": {
+          "name": "punctuation.parenthesis.close.isobjectscript"
+        }
+      },
+      "end": "(;)(?=$)"
+    },
+    "class-method": {
+      "begin": "^\\b((Class)?Method)\\b\\s+(%?\\b[[:alpha:]][[:alnum:]]*)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.method.isobjectscript"
+        },
+        "3": {
+          "name": "entity.name.function.isobjectscript"
+        }
+      },
+      "end": "(?<=\\})",
+      "patterns": [
+        {
+          "include": "#method-parameter-list"
+        },
+        {
+          "include": "#type-definition"
+        },
+        {
+          "include": "#attribute-list"
+        },
+        {
+          "include": "#block"
+        }
+      ]
+    },
+    "class-trigger": {
+      "begin": "^(?=\\bTrigger\\b)",
+      "end": "(?<=\\})",
+      "patterns": [
+        {
+          "begin": "^\\b(Trigger)\\b\\s*\\b([a-zA-Z]*)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.trigger.isobjectscript"
+            },
+            "2": {
+              "name": "keyword.other.trigger-name.isobjectscript"
+            }
+          },
+          "end": "(?<=\\})",
+          "patterns": [
+            {
+              "include": "#attribute-list"
+            },
+            {
+              "include": "#block"
+            }
+          ]
+        }
+      ]
+    },
+    "class-storage": {
+      "begin": "^(?=\\bStorage\\b)",
+      "end": "(?<=\\})",
+      "patterns": [
+        {
+          "begin": "^\\b(Storage)\\b\\s*\\b([a-zA-Z]*)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.storage.isobjectscript"
+            },
+            "2": {
+              "name": "keyword.other.storage-type.isobjectscript"
+            }
+          },
+          "end": "(?<=\\})",
+          "patterns": [
+            {
+              "include": "#embedded-xml"
+            }
+          ]
+        }
+      ]
+    },
+    "class-xdata": {
+      "begin": "^(?=\\bXData\\b)",
+      "end": "(?<=\\})",
+      "patterns": [
+        {
+          "begin": "^\\b(XData)\\b\\s*\\b([a-zA-Z]*)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.xdata.isobjectscript"
+            },
+            "2": {
+              "name": "keyword.other.xdata-name.isobjectscript"
+            }
+          },
+          "end": "(?<=\\})",
+          "patterns": [
+            {
+              "include": "#attribute-list"
+            },
+            {
+              "include": "#embedded-xml"
+            }
+          ]
+        }
+      ]
+    },
+    "class-query": {
+      "begin": "^(?=\\bQuery\\b)",
+      "end": "(?<=\\})",
+      "patterns": [
+        {
+          "begin": "^\\b(Query)\\b\\s+(%?\\b[[:alpha:]][[:alnum:]]*)",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.query.isobjectscript"
+            },
+            "2": {
+              "name": "entity.name.function.isobjectscript"
+            }
+          },
+          "end": "(?=\\{)",
+          "patterns": [
+            {
+              "include": "#method-parameter-list"
+            },
+            {
+              "include": "#type-definition"
+            },
+            {
+              "include": "#attribute-list"
+            }
+          ]
+        },
+        {
+          "begin": "\\{",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.curlybrace.open.isobjectscript"
+            }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.curlybrace.close.isobjectscript"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#embedded-language-sql"
+            }
+          ]
+        }
+      ]
+    },
+    "method-parameter-list": {
+      "begin": "\\(",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.parenthesis.open.isobjectscript"
+        }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.parenthesis.close.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#method-parameter"
+        }
+      ]
+    },
+    "method-parameter": {
+      "begin": "\\s*((Output)|(ByRef))?\\s*(%?\\b[a-zA-Z][a-zA-Z0-9]*\\b)\\s*",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.out-ref.isobjectscript"
+        },
+        "4": {
+          "name": "entity.name.variable.parameter.isobjectscript"
+        }
+      },
+      "end": ",|(?=\\))",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.separator.comma.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#type-definition"
+        },
+        {
+          "include": "#parameter-list"
+        },
+        {
+          "include": "#type-definition"
+        },
+        {
+          "include": "#parameter-default-value"
+        }
+      ]
+    },
+    "parameter-default-value": {
+      "begin": "\\s*(=)\\s*",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.separator.equals.isobjectscript"
+        }
+      },
+      "end": "(?=\\)|,)",
+      "patterns": [
+        {
+          "include": "#qstring-double"
+        },
+        {
+          "include": "#block"
+        },
+        {
+          "include": "#numeric-literal"
+        }
+      ]
+    },
+    "class-name": {
+      "name": "entity.name.type.class.isobjectscript",
+      "match": "%?\\b[a-zA-Z][a-zA-Z0-9.]*\\b"
+    },
+    "routine-name": {
+      "name": "entity.name.type.routine.isobjectscript",
+      "match": "\\b[a-zA-Z][a-zA-Z0-9]*\\b"
+    },
+    "property-name": {
+      "name": "entity.name.variable.property.isobjectscript",
+      "match": "%?\\b[a-zA-Z][a-zA-Z0-9]*\\b"
+    },
+    "punctuation-comma": {
+      "name": "punctuation.separator.comma.isobjectscript",
+      "match": ","
+    },
+    "punctuation-equals": {
+      "name": "punctuation.separator.equals.isobjectscript",
+      "match": "="
+    },
+    "numeric-literal": {
+      "patterns": [
+        {
+          "name": "constant.numeric.decimal.isobjectscript",
+          "match": "\\b([0-9_]+)?\\.[0-9_]+((e|E)[0-9]+)?\\b"
+        },
+        {
+          "name": "constant.numeric.decimal.isobjectscript",
+          "match": "\\b[0-9_]+(e|E)[0-9_]+\\b"
+        },
+        {
+          "name": "constant.numeric.decimal.isobjectscript",
+          "match": "\\b[0-9_]+\\b"
+        }
+      ]
+    },
+    "type-definition": {
+      "match": "(?i)(\\bAs\\b\\s+)((list|array)\\s+Of\\s+)?(%?\\b[a-zA-Z][a-zA-Z0-9.]*\\b)",
+      "captures": {
+        "1": {
+          "name": "keyword.other.as.isobjectscript"
+        },
+        "2": {
+          "name": "keyword.other.type-of.isobjectscript"
+        },
+        "4": {
+          "name": "entity.name.type.class.isobjectscript"
+        }
+      }
+    },
+    "qstring-double": {
+      "name": "string.quoted.double.isobjectscript",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.isobjectscript"
+        }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.isobjectscript"
+        }
+      }
+    },
+    "comment": {
+      "patterns": [
+        {
+          "name": "comment.block.isobjectscript",
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.isobjectscript"
+            }
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.isobjectscript"
+            }
+          }
+        },
+        {
+          "begin": "(?<!/);.*",
+          "beginCaptures": {
+            "0": {
+              "name": "comment.line.semicolon.isobjectscript"
+            }
+          },
+          "end": "(?=$)"
+        },
+        {
+          "begin": "(^\\s+)?(?=//)",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.leading.isobjectscript"
+            }
+          },
+          "end": "(?=$)",
+          "patterns": [
+            {
+              "name": "comment.block.documentation.isobjectscript",
+              "begin": "(?<!/)///(?!/)",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.comment.isobjectscript"
+                }
+              },
+              "end": "(?=$)",
+              "patterns": [
+                {
+                  "include": "#xml-doc-comment"
+                }
+              ]
+            },
+            {
+              "name": "comment.line.double-slash.isobjectscript",
+              "begin": "(?<!/)//(?:(?!/)|(?=//))",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.comment.isobjectscript"
+                }
+              },
+              "end": "(?=$)"
+            }
+          ]
+        }
+      ]
+    },
+    "xml-doc-comment": {
+      "patterns": [
+        {
+          "include": "#xml-comment"
+        },
+        {
+          "include": "#xml-character-entity"
+        },
+        {
+          "include": "#xml-cdata"
+        },
+        {
+          "include": "#xml-tag"
+        }
+      ]
+    },
+    "xml-tag": {
+      "name": "meta.tag.isobjectscript",
+      "begin": "(?x)\n(</?)\n(\n  (?:\n    ([-_[:alnum:]]+)\n    (:)\n  )?\n  ([-_[:alnum:]]+)\n)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.tag.isobjectscript"
+        },
+        "2": {
+          "name": "entity.name.tag.isobjectscript"
+        },
+        "3": {
+          "name": "entity.name.tag.namespace.isobjectscript"
+        },
+        "4": {
+          "name": "punctuation.separator.colon.isobjectscript"
+        },
+        "5": {
+          "name": "entity.name.tag.localname.isobjectscript"
+        }
+      },
+      "end": "(/?>)",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.tag.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#xml-attribute"
+        }
+      ]
+    },
+    "xml-attribute": {
+      "patterns": [
+        {
+          "match": "(?x)\n(?:^|\\s+)\n(\n  (?:\n    ([-_[:alnum:]]+)\n    (:)\n  )?\n  ([-_[:alnum:]]+)\n)\n(=)",
+          "captures": {
+            "1": {
+              "name": "entity.other.attribute-name.isobjectscript"
+            },
+            "2": {
+              "name": "entity.other.attribute-name.namespace.isobjectscript"
+            },
+            "3": {
+              "name": "punctuation.separator.colon.isobjectscript"
+            },
+            "4": {
+              "name": "entity.other.attribute-name.localname.isobjectscript"
+            },
+            "5": {
+              "name": "punctuation.separator.equals.isobjectscript"
+            }
+          }
+        },
+        {
+          "include": "#xml-string"
+        }
+      ]
+    },
+    "xml-cdata": {
+      "name": "string.unquoted.cdata.isobjectscript",
+      "begin": "<!\\[CDATA\\[",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.isobjectscript"
+        }
+      },
+      "end": "\\]\\]>",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.isobjectscript"
+        }
+      }
+    },
+    "xml-string": {
+      "patterns": [
+        {
+          "name": "string.quoted.single.isobjectscript",
+          "begin": "\\'",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.isobjectscript"
+            }
+          },
+          "end": "\\'",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.isobjectscript"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#xml-character-entity"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.double.isobjectscript",
+          "begin": "\\\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.isobjectscript"
+            }
+          },
+          "end": "\\\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.isobjectscript"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#xml-character-entity"
+            }
+          ]
+        }
+      ]
+    },
+    "xml-character-entity": {
+      "patterns": [
+        {
+          "name": "constant.character.entity.isobjectscript",
+          "match": "(?x)\n(&)\n(\n  (?:[[:alpha:]:_][[:alnum:]:_.-]*)|\n  (?:\\#[[:digit:]]+)|\n  (?:\\#x[[:xdigit:]]+)\n)\n(;)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.constant.isobjectscript"
+            },
+            "3": {
+              "name": "punctuation.definition.constant.isobjectscript"
+            }
+          }
+        },
+        {
+          "name": "invalid.illegal.bad-ampersand.isobjectscript",
+          "match": "&"
+        }
+      ]
+    },
+    "xml-comment": {
+      "name": "comment.block.isobjectscript",
+      "begin": "<!--",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.comment.isobjectscript"
+        }
+      },
+      "end": "-->",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.comment.isobjectscript"
+        }
+      }
+    },
+    "embedded-html": {
+      "name": "meta.embedded.inline.html",
+      "begin": "(?i)(&html)(\\<)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.embedded-html.isobjectscript"
+        },
+        "2": {
+          "name": "punctuation.isobjectscript"
+        }
+      },
+      "end": "(\\>)",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "text.html.basic"
+        }
+      ]
+    },
+    "embedded-js": {
+      "name": "meta.embedded.inline.js",
+      "begin": "(?i)(&js)(\\<)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.embedded-js.isobjectscript"
+        },
+        "2": {
+          "name": "punctuation.isobjectscript"
+        }
+      },
+      "end": "(\\))",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "source.js"
+        }
+      ]
+    },
+    "embedded-sql": {
+      "begin": "(?i)(&sql)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.embedded-sql.isobjectscript"
+        }
+      },
+      "end": "(?<=\\))",
+      "patterns": [
+        {
+          "include": "#parenthesized-sql"
+        }
+      ]
+    },
+    "parenthesized-sql": {
+      "begin": "(?=\\()",
+      "end": "(?=\\))",
+      "patterns": [
+        {
+          "include": "#embedded-language-sql"
+        }
+      ]
+    },
+    "embedded-language-sql": {
+      "name": "meta.embedded.inline.sql",
+      "patterns": [
+        {
+          "include": "source.sql"
+        }
+      ]
+    },
+    "embedded-xml": {
+      "name": "meta.embedded.inline.xml",
+      "patterns": [
+        {
+          "begin": "(\\{)",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.isobjectscript"
+            }
+          },
+          "patterns": [
+            {
+              "include": "text.xml"
+            }
+          ],
+          "end": "(\\})",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.isobjectscript"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

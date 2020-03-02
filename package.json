@@ -1,0 +1,270 @@
+{
+    "name": "isobjectscript",
+    "displayName": "ISObjectScript",
+    "description": "Support language InterSystems Object Script",
+    "version": "0.0.1",
+    "publisher": "Sheonn",
+    "author": {
+        "name": "Sheonn"
+    },
+    "keywords": [
+        "debug"
+    ],
+    "license": "MIT",
+    "engines": {
+        "vscode": "^1.29.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "activationEvents": [
+        "onCommand:extension.sayHello",
+        "onLanguage:isobjectscript"
+    ],
+    "main": "./out/extension",
+    "contributes": {
+        "languages": [
+            {
+                "id": "isobjectscript",
+                "aliases": [
+                    "ISObjectScript"
+                ],
+                "extensions": [
+                    ".cls",
+                    ".mac",
+                    ".int",
+                    ".inc"
+                ]
+            },
+            {
+                "id": "isobjectscript.csp",
+                "aliases": [
+                    "ISObjectScript CSP"
+                ],
+                "extensions": [
+                    ".csp"
+                ]
+            }
+        ],
+        "grammars": [
+            {
+                "language": "isobjectscript",
+                "scopeName": "source.isobjectscript",
+                "path": "syntaxes/isobjectscript.tmLanguage.json",
+                "embeddedLanguages": {
+                    "meta.embedded.inline.sql": "source.sql",
+                    "meta.embedded.inline.xml": "text.xml",
+                    "meta.embedded.inline.html": "text.html.basic",
+                    "meta.embedded.inline.js": "source.js"
+                }
+            },
+            {
+                "language": "isobjectscript.csp",
+                "scopeName": "source.isobjectscript.csp",
+                "path": "syntaxes/isobjectscript.csp.tmLanguage.json",
+                "embeddedLanguages": {
+                    "meta.embedded.inline.sql": "source.sql",
+                    "meta.embedded.inline.xml": "text.xml",
+                    "meta.embedded.inline.js": "source.js",
+                    "meta.embedded.inline.objectscript-class": "source.isobjectscript"
+                }
+            },
+            {
+                "scopeName": "source.isobjectscript.injection",
+                "path": "./syntaxes/isobjectscript.injection.tmLanguage.json",
+                "injectTo": [
+                    "source.js",
+                    "text.html.basic",
+                    "source.objectscript.csp",
+                    "source.objectscript"
+                ]
+            }
+        ],
+        "commands": [
+            {
+                "command": "extension.sayHello",
+                "title": "Hello World"
+            }
+        ],
+        "configuration": [
+            {
+                "title": "IS ObjectScript Configuration",
+                "type": "object",
+                "properties": {
+                    "isobjectscript.connect": {
+                        "description": "Connection configuration",
+                        "type": "object"
+                    },
+                    "isobjectscript.connect.host": {
+                        "description": "Host",
+                        "type": "string",
+                        "default": "localhost"
+                    },
+                    "isobjectscript.connect.port": {
+                        "description": "Port",
+                        "type": "number",
+                        "default": 80
+                    },
+                    "isobjectscript.connect.ns": {
+                        "description": "Namespace",
+                        "type": "string",
+                        "default": "USER"
+                    },
+                    "isobjectscript.connect.username": {
+                        "description": "Username",
+                        "type": "string",
+                        "default": "_SYSTEM"
+                    },
+                    "isobjectscript.connect.password": {
+                        "description": "Password",
+                        "type": "string",
+                        "default": "SYS"
+                    },
+                    "isobjectscript.connect.baseuri": {
+                        "description": "Base URI Atelier API",
+                        "type": "string",
+                        "default": "/api/atelier/"
+                    },
+                    "isobjectscript.connect.apiversion": {
+                        "description": "Version Atelier API",
+                        "type": "string",
+                        "enum": [
+                            "v1",
+                            "v2"
+                        ],
+                        "default": "v1"
+                    },
+                    "isobjectscript.connect.secure": {
+                        "description": "Use secure connection",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "isobjectscript.export": {
+                        "type": "object",
+                        "description": "Export configuration"
+                    },
+                    "isobjectscript.export.folder": {
+                        "description": "Export source code to folder",
+                        "type": "string",
+                        "default": "src"
+                    },
+                    "isobjectscript.export.astree": {
+                        "description": "Exporting source codes as a tree",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "isobjectscript.export.category": {
+                        "description": "Specifies a category: CLS = classes; RTN = routines; CSP = csp files; OTH = other. Default is *",
+                        "type": "string",
+                        "default": "*"
+                    },
+                    "isobjectscript.autocompile": {
+                        "description": "Autocompile on save file",
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "languageServerExample.maxNumberOfProblems": {
+                        "scope": "resource",
+                        "type": "number",
+                        "default": 100,
+                        "description": "Controls the maximum number of problems produced by the server."
+                    },
+                    "languageServerExample.trace.server": {
+                        "scope": "window",
+                        "type": "string",
+                        "enum": [
+                            "off",
+                            "messages",
+                            "verbose"
+                        ],
+                        "default": "off",
+                        "description": "Traces the communication between VS Code and the language server."
+                    }
+                }
+            }
+        ],
+        "breakpoints": [
+            {
+                "language": "objectscript"
+            }
+        ],
+        "debuggers": [
+            {
+                "type": "objectscriptdebug",
+                "label": "Debug IS Object Script",
+                "languages": [
+                    "objectscript"
+                ],
+                "program": "./out/debugger/adapter.js",
+                "runtime": "node",
+                "configurationAttributes": {
+                    "launch": {
+                        "required": [
+                            "program"
+                        ],
+                        "properties": {
+                            "program": {
+                                "type": "string",
+                                "description": "Absolute path to a text file.",
+                                "default": "${workspaceFolder}/${command:AskForProgramName}"
+                            },
+                            "stopOnEntry": {
+                                "type": "boolean",
+                                "description": "Automatically stop after launch.",
+                                "default": true
+                            },
+                            "trace": {
+                                "type": "boolean",
+                                "description": "Enable logging of the Debug Adapter Protocol.",
+                                "default": true
+                            }
+                        }
+                    }
+                },
+                "initialConfigurations": [
+                    {
+                        "type": "objectscriptdebug",
+                        "request": "launch",
+                        "name": "Ask for file name",
+                        "program": "${workspaceFolder}/${command:AskForProgramName}",
+                        "stopOnEntry": true
+                    }
+                ],
+                "configurationSnippets": [
+                    {
+                        "label": "ObjectScript Debug: Launch",
+                        "description": "A new configuration for 'debugging' a user selected markdown file.",
+                        "body": {
+                            "type": "objectscriptdebug",
+                            "request": "launch",
+                            "name": "Ask for file name",
+                            "program": "^\"\\${workspaceFolder}/\\${command:AskForProgramName}\"",
+                            "stopOnEntry": true
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "dependencies": {
+        "@types/ws": "^6.0.1",
+        "await-notify": "^1.0.1",
+        "fast-xml-parser": "^3.12.14",
+        "typed-rest-client": "^1.1.2",
+        "vscode-debugadapter": "^1.34.0"
+    },
+    "devDependencies": {
+        "vscode": "^1.1.30",
+        "@types/mocha": "^5.2.6",
+        "@types/node": "^11.11.3",
+        "tslint": "^5.14.0",
+        "typescript": "^3.3.3333"
+    }
+}

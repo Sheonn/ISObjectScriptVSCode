@@ -1,0 +1,57 @@
+{
+  "injectionSelector": "L:source",
+  "patterns": [
+    {
+      "include": "#source-isobjectscript"
+    },
+    {
+      "include": "#script-language-cache"
+    },
+    {
+      "include": "#tag-server"
+    }
+  ],
+  "repository": {
+    "name": "source.objectscript-class.injection",
+    "source-isobjectscript": {
+      "name": "meta.embedded.inline.isobjectscript",
+      "begin": "(?i)(#(call|server)?\\()",
+      "end": "(\\)#)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.source.isobjectscript"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.source.isobjectscript"
+        }
+      },
+      "patterns": [
+        {
+          "include": "source.isobjectscript"
+        }
+      ]
+    },
+    "tag-server": {
+      "name": "meta.embedded.inline.isobjectscript",
+      "begin": "(?i)(<server\\b(\\s*\\blanguage\\b\\s*=\\s*['\"]?cache['\"]?)?\\s*>)",
+      "end": "(?i)(<\/server>)",
+      "patterns": [
+        {
+          "include": "source.isobjectscript"
+        }
+      ]
+    },
+    "script-language-cache": {
+      "name": "meta.embedded.inline.isobjectscript",
+      "begin": "(?i)(<script\\b[^>](\\s*\\blanguage\\b\\s*=\\s*['\"]?cache['\"]?)[^>]*>)",
+      "end": "(?i)(<\/script>)",
+      "patterns": [
+        {
+          "include": "source.isobjectscript"
+        }
+      ]
+    }
+  }
+}
